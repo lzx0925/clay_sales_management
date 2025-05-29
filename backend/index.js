@@ -1,14 +1,21 @@
-require('dotenv').config();
 const express = require('express');
+const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 
-const app = express();
+const productRoutes = require('./routes/productRoutes');
+const purchaseRoutes = require('./routes/purchaseRoutes');
 
-// 连接数据库
+dotenv.config();
+const app = express();
 connectDB();
 
+app.use(express.json());
+
+app.use('/product', productRoutes);
+app.use('/purchase', purchaseRoutes);
+
 app.get('/', (req, res) => {
-  res.send('Hello from backend!');
+  res.send('Backend is running...');
 });
 
 const PORT = process.env.PORT || 5000;
